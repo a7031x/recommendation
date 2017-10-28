@@ -71,6 +71,16 @@ def tanimoto(v1, v2):
     return 1.0-(float(shr)/(c1+c2-shr))
 
 
+def manhattan(v1, v2):
+    num = sum([abs(x - y) for x, y in zip(v1, v2)])
+    den = sum([x + y for x, y in zip(v1, v2)])
+    return num / den
+
+
+def sim_manhatten(v1, v2)
+    return 1 - manhattan(v1, v2)
+
+
 def top_matches(prefs, person, n, sim_func):
     scores = [(sim_func(prefs, person, other), other) for other in prefs if other != person]
     scores.sort()

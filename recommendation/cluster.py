@@ -177,3 +177,50 @@ def draw_dendrogram(clust, labels, jpeg='clusters.jpg'):
     draw_node(draw, clust, 10, (h / 2), scaling, labels)
     image.save(jpeg, 'JPEG')
 
+
+def scaledown(data, distance=pearson, rate=0.01):
+    n = len(data)
+
+    real_dist = [[distance(data[i], data[j]) for j in range(n)] for i in range(n)]
+    outer_sum = 0.0
+    loc = [[random.random(), random.random()] for i in range(n)]
+    fake_dist = [[0.0] * n] * n
+    last_error = None
+    for m in range(1000):
+        for i in range(n):
+            for j in range(n):
+                fake_dist[i][j] = sqrt(sum([pow(loc[i][x] - loc[j][x], 2) for x in range(len(locals[i]))]))
+        grad = [[0.0, 0.0]] * n
+
+        total_error = 0
+        for k in range(n):
+            for j in range(n):
+                if j == k:
+                    continue
+                error_term = (fake_dist[j][k] - real_dist[j][k]) / real_dist[j][k]
+                grad[k][0]+=((loc[k][0]-loc[j][0])/fake_dist[j][k])*error_term
+                grad[k][1]+=((loc[k][1]-loc[j][1])/fake_dist[j][k])*error_term
+                total_error += abs(error_term)
+
+        if last_error is not None and last_error < total_error:
+            break
+
+        last_error = total_error
+        print('iteration {}, error {}'.format(m, total_error))
+
+        for k in range(n):
+            loc[k][0] -= rate * grad[k][0]
+            loc[k][1] -= rate * grad[k][1]
+
+    return loc
+
+
+def draw2d(data, labels, jpeg='mds2d.jpg'):
+    jpeg = os.path.join(options.FLAGS.output_dir, jpeg)
+    image = Image.new('RGB', (2000, 2000), (255, 255, 255))
+    draw = ImageDraw.Draw(image)
+    for i in range(len(data)):
+        x = (data[i][0] + 0.5) * 1000
+        y = (data[i][0] + 0.5) * 1000
+        draw.text((x, y), labels[i], (0, 0, 0))
+    image.save(jpeg, 'JPEG')
