@@ -14,7 +14,7 @@ def sim_distance(prefs, p1, p2):
     return 1 / (1 + math.sqrt(sum_of_squares))
 
 
-def sim_person(prefs, p1, p2):
+def sim_pearson(prefs, p1, p2):
     si = {}
     for item in prefs[p1]:
         if item in prefs[p2]:
@@ -78,7 +78,7 @@ def top_matches(prefs, person, n, sim_func):
     return scores[0:n]
 
 
-def get_recommendations(prefs, person, similarity=sim_person):
+def get_recommendations(prefs, person, similarity=sim_pearson):
     totals = {}
     sim_sums = {}
 
