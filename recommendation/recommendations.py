@@ -59,6 +59,18 @@ def sim_tanimoto(prefs, p1, p2):
     return xsum / (sum1_2 + sum2_2 - xsum)
 
 
+#1.0 means no overlap. 0.0 means full overlap
+def tanimoto(v1, v2):
+    c1,c2,shr=0,0,0
+
+    for i in range(len(v1)):
+        if v1[i]!=0: c1+=1 # in v1
+        if v2[i]!=0: c2+=1 # in v2
+        if v1[i]!=0 and v2[i]!=0: shr+=1 # in both
+
+    return 1.0-(float(shr)/(c1+c2-shr))
+
+
 def top_matches(prefs, person, n, sim_func):
     scores = [(sim_func(prefs, person, other), other) for other in prefs if other != person]
     scores.sort()
