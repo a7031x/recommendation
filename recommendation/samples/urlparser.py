@@ -17,7 +17,7 @@ def generate_file():
         for td in soup('td'):
         # Find table cells of bgverdanasmall class
             if ('class' in dict(td.attrs) and td['class']=='bgverdanasmall'):
-                items=[re.sub(chare,'',a.contents[0].lower()).strip(  ) for a in td('a')]
+                items=[re.sub(chare,'',a.contents[0].lower()).strip() for a in td('a')]
                 for item in items:
                     # Remove extra words
                     txt=' '.join([t for t in item.split(' ') if t not in dropwords])
