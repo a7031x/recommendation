@@ -37,7 +37,13 @@
     <Compile Include="recommendations.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="samples\testsearchengine.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="samples\urlparser.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="searchengine.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
