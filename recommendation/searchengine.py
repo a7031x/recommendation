@@ -297,4 +297,3 @@ class searcher:
         normalizescores=dict([(u,1/maxscore) for u,l in linkscores.items()])
         return normalizescores
 
-

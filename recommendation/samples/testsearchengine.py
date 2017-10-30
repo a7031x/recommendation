@@ -1,12 +1,12 @@
 import searchengine
-
+import nn
 #pagelist=['http://www.baidu.com']
 #crawler=searchengine.crawler('')
 #crawler.crawl(pagelist)
 
-e=searchengine.searcher('searchindex.db')
-r=e.query('baidu music')
-print(r)
+#e=searchengine.searcher('searchindex.db')
+#r=e.query('baidu music')
+#print(r)
 
 #crawler=searchengine.crawler('searchindex.db')
 #crawler.calculatepagerank()
@@ -17,3 +17,6 @@ print(r)
 #r=[x for x in cur][0:5]
 #r=[(e.get_url_name(x),s) for x,s in r]
 #print(r)
+
+mynet=nn.searchnet('nn.db')
+#mynet.maketables()
