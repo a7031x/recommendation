@@ -205,7 +205,11 @@ class searcher:
 
     def get_scored_list(self,rows,wordids):
         totalscores=dict([(row[0],0) for row in rows])
-        weights=[(1,self.frequencyscore(rows)),(1,self.locationscore(rows))]
+        weights=[
+            (1,self.frequencyscore(rows)),
+            (1,self.locationscore(rows)),
+            (1,self.pagerankscore(rows)),
+            (1,self.linktextscore(rows,wordids))]
 
         for weight,scores in weights:
             for url in totalscores:
@@ -270,3 +274,27 @@ class searcher:
         uniqueurls=set([row[0] for row in rows])
         inboundcount=dict([(u,self.execute("select count(*) from link where toid={}".format(u)).fetchone()[0]) for u in uniqueurls])
         return self.normalizescores(inboundcount)
+
+
+    def pagerankscore(self,rows):
+        pageranks=dict([(row[0],self.execute('select score from pagerank where urlid={}'.format(row[0])).fetchone()[0]) for row in rows])
+        maxrank=max(pageranks.values())
+        normalizescores=dict([(u,1/maxrank) for u,l in pageranks.items()])
+        return normalizescores
+
+
+    def linktextscore(self,rows,wordids):
+        linkscores=dict([(row[0],0) for row in rows])
+        for wordid in wordids:
+            cur=self.execute('select link.fromid,link.toid from linkwords,link where wordid={} and linkwords.linkid=link.rowid'.format(wordid))
+            for fromid,toid in cur:
+                if toid in linkscores:
+                    pr=self.execute('select score from pagerank where urlid={}'.format(fromid)).fetchone()[0]
+                    linkscores[toid]+=pr
+        maxscore=max(linkscores.values())
+        if maxscore==0:
+            maxscore=0.00001
+        normalizescores=dict([(u,1/maxscore) for u,l in linkscores.items()])
+        return normalizescores
+
+
