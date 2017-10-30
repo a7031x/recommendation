@@ -6,7 +6,7 @@
     <ProjectGuid>c328c298-4de0-4742-a090-c8b4c1c98866</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <ProjectTypeGuids>{D22814C2-A430-4A53-8052-A3A64BFB2240};{888888A0-9F3D-457C-B088-3A5042F75D52}</ProjectTypeGuids>
-    <StartupFile>main.py</StartupFile>
+    <StartupFile>samples\testsearchengine.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
