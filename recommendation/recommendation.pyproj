@@ -30,6 +30,9 @@
     <Compile Include="dataset.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="docclass.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="main.py" />
     <Compile Include="nn.py">
       <SubType>Code</SubType>
@@ -38,6 +41,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="recommendations.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="samples\testdocclass.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="samples\testsearchengine.py">
