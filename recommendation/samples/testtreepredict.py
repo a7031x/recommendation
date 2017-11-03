@@ -19,6 +19,10 @@ import treepredict
 #tree=treepredict.buildtree(treepredict.my_data)
 #print(treepredict.classify(['(direct)', 'USA', 'yes', 5], tree))
 
+#tree=treepredict.buildtree(treepredict.my_data)
+#treepredict.prune(tree,1)
+#treepredict.printtree(tree)
+
 tree=treepredict.buildtree(treepredict.my_data)
-treepredict.prune(tree,1)
-treepredict.printtree(tree)
+print(treepredict.mdclassify(['google',None,'yes',None],tree))
+print(treepredict.mdclassify(['google','France',None,None],tree))

@@ -1,6 +1,8 @@
 from PIL import Image,ImageDraw
 import options
 import os
+import xml.dom.minidom
+import urllib
 
 #Referrer|Location|Read FAQ|Pages viewed|Service chosen
 my_data=[['slashdot','USA','yes',18,'None'],
@@ -196,3 +198,74 @@ def prune(tree,mingain):
         if delta<mingain:
             tree.tb,tree.fb=None,None
             tree.results=uniquecounts(tb+fb)
+
+
+def mdclassify(observation,tree):
+    if tree.results is not None:
+        return tree.results
+    else:
+        v=observation[tree.col]
+        if v is None:
+            tr,fr=mdclassify(observation,tree.tb),mdclassify(observation,tree.fb)
+            tcount=sum(tr.values())
+            fcount=sum(fr.values())
+            tw=tcount/(tcount+fcount)
+            fw=fcount/(tcount+fcount)
+            result={}
+            for k,v in tr.items(): result[k]=v*tw
+            for k,v in fr.items(): result[k]=result.setdefault(k,0)+(v*fw)
+            return result
+        else:
+            if isinstance(v,int) or isinstance(v,float):
+                if v >=tree.value:
+                    branch=tree.tb
+                else:
+                    branch=tree.fb
+            else:
+                if v==tree.value:
+                    branch=tree.tb
+                else:
+                    branch=tree.fb
+            return mdclassify(observation,branch)
+
+
+def variance(rows):
+    if len(rows)==0:
+        return 0
+    data=[row[len(row)-1] for row in rows]
+    mean=sum(data)/len(data)
+    variance=sum([(d-mean)**2 for d in data])/len(data)
+    return variance
+
+
+zwskey='X1-ZWz1chwxis15aj_9skq6'
+
+def getaddressdata(address,city):
+    escad=address.replace(' ','+')
+    url='http://www.zillow.com/webservice/GetDeepSearchResults.htm?'+'zws-id=%s&address=%s&citystatezip=%s' % (zwskey,escad,city)
+    doc=xml.dom.minidom.parseString(urllib.request.urlopen(url).read())
+    code=doc.getElementsByTagName('code')[0].firstChild.data
+    if code!='0':
+        return None
+
+    try:
+        zipcode=doc.getElementsByTagName('zipcode')[0].firstChild.data
+        use=doc.getElementsByTagName('useCode')[0].firstChild.data
+        year=doc.getElementsByTagName('yearBuilt')[0].firstChild.data
+        bath=doc.getElementsByTagName('bathrooms')[0].firstChild.data
+        bed=doc.getElementsByTagName('bedrooms')[0].firstChild.data
+        rooms=doc.getElementsByTagName('totalRooms')[0].firstChild.data
+        price=doc.getElementsByTagName('amount')[0].firstChild.data
+    except:
+        return None
+
+    return (zipcode,use,int(year),float(bath),int(bed),int(rooms),price)
+
+
+def getpricelist():
+    l1=[]
+    for line in file('addresslist.txt'):
+        data=getaddressdata(line.strip(),'Cambridge,MA')
+        l1.append(data)
+    return l1
+
