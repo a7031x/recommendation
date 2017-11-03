@@ -49,10 +49,16 @@
     <Compile Include="samples\testsearchengine.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="samples\testtreepredict.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="samples\urlparser.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="searchengine.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="treepredict.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
