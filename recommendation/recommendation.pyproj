@@ -33,6 +33,9 @@
     <Compile Include="docclass.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="hotornot.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="main.py" />
     <Compile Include="nn.py">
       <SubType>Code</SubType>

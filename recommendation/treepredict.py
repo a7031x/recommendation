@@ -2,7 +2,7 @@ from PIL import Image,ImageDraw
 import options
 import os
 import xml.dom.minidom
-import urllib
+from urllib import request
 
 #Referrer|Location|Read FAQ|Pages viewed|Service chosen
 my_data=[['slashdot','USA','yes',18,'None'],
@@ -243,7 +243,7 @@ zwskey='X1-ZWz1chwxis15aj_9skq6'
 def getaddressdata(address,city):
     escad=address.replace(' ','+')
     url='http://www.zillow.com/webservice/GetDeepSearchResults.htm?'+'zws-id=%s&address=%s&citystatezip=%s' % (zwskey,escad,city)
-    doc=xml.dom.minidom.parseString(urllib.request.urlopen(url).read())
+    doc=xml.dom.minidom.parseString(request.urlopen(url).read())
     code=doc.getElementsByTagName('code')[0].firstChild.data
     if code!='0':
         return None

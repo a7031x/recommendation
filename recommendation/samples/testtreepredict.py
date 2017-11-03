@@ -1,4 +1,5 @@
 import treepredict
+import hotornot
 
 #s1,s2=treepredict.divideset(treepredict.my_data,2,'yes')
 #print(s1)
@@ -23,6 +24,11 @@ import treepredict
 #treepredict.prune(tree,1)
 #treepredict.printtree(tree)
 
-tree=treepredict.buildtree(treepredict.my_data)
-print(treepredict.mdclassify(['google',None,'yes',None],tree))
-print(treepredict.mdclassify(['google','France',None,None],tree))
+#tree=treepredict.buildtree(treepredict.my_data)
+#print(treepredict.mdclassify(['google',None,'yes',None],tree))
+#print(treepredict.mdclassify(['google','France',None,None],tree))
+
+l1=hotornot.getrandomratings(500)
+print(len(l1))
+pdata=hotornot.getpeopledata(l1)
+print(pdata[0])
